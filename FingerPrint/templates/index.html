@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blood Group Detection</title>
+
+    <!-- Browser tab logo (favicon) -->
+    <link rel="icon" type="image/png"
+          href="{{ url_for('static', filename='images/Icon.png') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+    <a href="{{ url_for('index') }}" class="logo">
+        <div class="logo-box">
+            <i class="fa-solid fa-fingerprint"></i>
+        </div>
+        <span class="logo-text">BloodScan AI</span>
+    </a>
+
+    <nav class="nav-actions" aria-label="Primary navigation">
+        <a href="{{ url_for('result') }}" class="analyze-btn">
+            <i class="fa-solid fa-expand"></i>
+            Analyze
+        </a>
+
+        {% if session.get('user_id') %}
+        <div class="user-menu" data-user-menu>
+            <button type="button" class="user-menu-trigger" aria-label="Open user menu" aria-expanded="false">
+                <span class="user-avatar" title="{{ session.get('user_name') }}">
+                    <i class="fa-solid fa-user"></i>
+                </span>
+            </button>
+
+            <div class="user-menu-panel" hidden>
+                <div class="user-menu-name-row">
+                    <span class="user-name">{{ session.get('user_name') }}</span>
+                    <button type="button" class="user-menu-collapse" aria-label="Collapse user menu">
+                        <i class="fa-solid fa-angle-right"></i>
+                    </button>
+                </div>
+
+                <a href="{{ url_for('logout') }}" class="signout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Sign Out
+                </a>
+            </div>
+        </div>
+        {% else %}
+        <a href="{{ url_for('login') }}" class="nav-btn nav-btn-outline">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            Login
+        </a>
+
+        <a href="{{ url_for('register') }}" class="nav-btn nav-btn-outline">
+            <i class="fa-solid fa-user-plus"></i>
+            Register
+        </a>
+        {% endif %}
+    </nav>
+</header>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <section class="home-flash-wrap">
+        {% for category, message in messages %}
+            <div class="home-flash home-flash-{{ category }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </section>
+    {% endif %}
+{% endwith %}
+
+<!-- ================= HERO SECTION ================= -->
+<section class="container">
+
+    <div class="left">
+
+        <div class="badge">
+            <i class="fa-brands fa-jedi-order"></i>
+            AI-Powered Detection
+        </div>
+
+        <h1>
+            Blood Group <br>
+            <span>Detection</span> <br>
+            via Fingerprints
+        </h1>
+
+        <p>
+            Revolutionary AI technology that analyzes fingerprint patterns to accurately
+            determine your blood group. Fast, reliable, and non-invasive.
+            The model is designed as a theoretical framework for academic
+            and experimental study.
+        </p>
+
+        <a class="get-started-btn" href="{{ url_for('result') }}">
+            Get Started
+            <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+        <div class="features">
+            <div class="feature-item">
+                <img src="{{ url_for('static', filename='images/check.png') }}">
+                <span>High Accuracy</span>
+            </div>
+
+            <div class="feature-item">
+                <img src="{{ url_for('static', filename='images/check.png') }}">
+                <span>Instant Results</span>
+            </div>
+
+            <div class="feature-item">
+                <img src="{{ url_for('static', filename='images/check.png') }}">
+                <span>Read the Guidelines</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="right">
+        <img src="{{ url_for('static', filename='images/LandPage.jpg') }}">
+    </div>
+
+</section>
+<!-- =============== END HERO SECTION =============== -->
+
+<!-- ================= INFO / SKETCH SECTION ================= -->
+<section class="info-section">
+
+    <!-- TOP BLOCK -->
+    <div class="info-row">
+         <div class="info-box">
+            <img src="{{ url_for('static', filename='images/info1.jpg') }}">
+        </div>
+
+        <div class="info-text">
+            <h3>What is Fingerprint based Blood Group Prediction ?</h3>
+            <p>
+                Fingerprint-based blood group prediction is a non-invasive technique that analyzes fingerprint images to identify patterns such as ridges, loops, whorls, and arches, and then 
+                uses machine learning or deep learning algorithms to predict a person's blood group (A, B, AB, O, Rh ±).
+                This method is based on the idea that both fingerprints and blood groups are genetically determined
+                and certain fingerprint features may show statistical correlations with specific blood groups.
+                Although fingerprint-based blood group prediction cannot replace laboratory blood tests, it serves as a preliminary identification tool that can be useful in emergency situations, biometric systems, and academic research, especially where traditional blood testing is not immediately available.
+            </p>
+        </div>
+
+       
+    </div>
+
+    <!-- MIDDLE TEXT -->
+    <div class="info-middle">
+        <h3 style="font-size: 34px;">Why we need This AI Powder Service in Medication ?</h3>
+        <p>
+            AI-powered service is needed to make the prediction process accurate, fast, and reliable. Since fingerprint patterns such as ridges, loops, whorls, and arches are complex and not directly linked to blood groups, traditional rule-based methods are not sufficient. 
+            AI and machine learning algorithms can analyze large fingerprint datasets, automatically extract hidden features, and identify statistical correlations between fingerprint characteristics and blood groups. 
+        </p>
+    </div>
+
+    <!-- BOTTOM BLOCK -->
+    <div class="info-row reverse">
+        <div class="info-box">
+            <img src="{{ url_for('static', filename='images/info2.jpg') }}">
+        </div>
+
+        
+        <div class="info-text">
+            <p>
+                This helps in improving prediction accuracy and consistency. 
+                An AI-based system can also reduce manual effort, minimize human bias, and provide instant results, making it useful for preliminary blood group identification in emergency situations, remote healthcare settings, and biometric applications where conventional blood testing is not immediately available.
+                By leveraging advanced image processing and learning algorithms, the system can analyze complex fingerprint features and provide quick, automated, and preliminary blood group identification. Although this method cannot replace traditional laboratory blood tests due to accuracy limitations.
+                it serves as a supportive and research-oriented solution for emergency situations, remote healthcare environments, and academic applications.
+            </p>
+        </div>
+    </div>
+
+</section>
+<!-- =============== END INFO SECTION =============== -->
+<!-- ================= HOW IT WORKS SECTION ================= -->
+<section class="how-it-works">
+
+    <h2>How It Works</h2>
+    <p class="how-subtitle">
+        Our advanced AI analyzes unique fingerprint patterns to determine
+        blood group characteristics with remarkable precision.
+    </p>
+
+    <div class="how-cards">
+
+        <div class="how-card">
+            <div class="how-icon">
+                <i class="fa-solid fa-upload"></i>
+            </div>
+            <h4>Upload Image</h4>
+            <p>
+                Simply upload a clear fingerprint image. Our system
+                accepts common image formats and processes them instantly.
+            </p>
+        </div>
+
+        <div class="how-card">
+            <div class="how-icon">
+                <i class="fa-solid fa-brain"></i>
+            </div>
+            <h4>AI Analysis</h4>
+            <p>
+                Our AI model analyzes ridge patterns, minutiae points,
+                and unique fingerprint characteristics.
+            </p>
+        </div>
+
+        <div class="how-card">
+            <div class="how-icon">
+                <i class="fa-solid fa-heart-pulse"></i>
+            </div>
+            <h4>Get Results</h4>
+            <p>
+                Receive your blood group prediction with confidence
+                indicators and detailed analysis in seconds.
+            </p>
+        </div>
+
+    </div>
+</section>
+<!-- =============== END HOW IT WORKS SECTION =============== -->
+<!-- ================== Guide Lines ================= -->
+<section class="guidelines-section" id="guidelines">
+
+    <h2>Important Guidelines Before Fingerprint Analysis</h2>
+    <p class="guidelines-intro">
+        Please read the following guidelines carefully before proceeding with fingerprint analysis.
+        This system is designed strictly for academic, experimental, and educational purposes.
+    </p>
+
+    <ul class="guidelines-list">
+        <li>
+            <strong>Not a Medical Diagnostic Tool:</strong>
+            This system does not replace laboratory blood tests or certified medical procedures.
+            Real-world blood group determination requires biochemical analysis.
+        </li>
+
+        <li>
+            <strong>Theoretical AI Model:</strong>
+            The prediction is based on statistical correlations between fingerprint patterns and
+            blood groups, which are theoretical and not clinically validated.
+        </li>
+
+        <li>
+            <strong>Limited Dataset Dependency:</strong>
+            The AI model is trained on a limited research dataset. Performance may vary when
+            applied to unseen or real-time fingerprint data.
+        </li>
+
+        <li>
+            <strong>Image Quality Constraints:</strong>
+            Real-time fingerprints captured using mobile cameras or scanners may contain noise,
+            distortion, or incomplete ridge details, affecting prediction accuracy.
+        </li>
+
+        <li>
+            <strong>Genetic Correlation Is Not Absolute:</strong>
+            Although fingerprints and blood groups are genetically influenced, there is no
+            guaranteed one-to-one mapping between fingerprint features and blood groups.
+        </li>
+
+        <li>
+            <strong>Educational & Research Use Only:</strong>
+            The system is intended to demonstrate AI concepts such as feature extraction,
+            classification, and model evaluation — not for clinical or emergency decision-making.
+        </li>
+    </ul>
+
+</section>
+<!-- ================== End of Guide Lines ================= -->
+
+<!-- ================= CTA SECTION ================= -->
+<section class="cta-section">
+    <h2>Ready to Discover Your Blood Group?</h2>
+    <p>
+        Experience the future of blood group detection with our
+        AI-powered fingerprint analysis.
+    </p>
+
+    <a href="{{ url_for('result') }}" class="cta-btn" >
+        Start Analysis Now
+        <i class="fa-solid fa-arrow-right"></i>
+    </a>
+</section>
+<!-- ================= END CTA SECTION ================= -->
+
+<script>
+(function () {
+    const menu = document.querySelector('[data-user-menu]');
+    if (!menu) return;
+
+    const trigger = menu.querySelector('.user-menu-trigger');
+    const panel = menu.querySelector('.user-menu-panel');
+    const collapse = menu.querySelector('.user-menu-collapse');
+
+    const openMenu = () => {
+        panel.hidden = false;
+        trigger.setAttribute('aria-expanded', 'true');
+        menu.classList.add('is-open');
+    };
+
+    const closeMenu = () => {
+        panel.hidden = true;
+        trigger.setAttribute('aria-expanded', 'false');
+        menu.classList.remove('is-open');
+    };
+
+    trigger.addEventListener('click', () => {
+        if (panel.hidden) openMenu();
+        else closeMenu();
+    });
+
+    collapse.addEventListener('click', closeMenu);
+
+    document.addEventListener('click', (event) => {
+        if (!menu.contains(event.target)) closeMenu();
+    });
+})();
+</script>
+
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            <div class="logo-box">
+                <i class="fa-solid fa-fingerprint"></i>
+            </div>
+            <span>BloodScan AI</span>
+        </div>
+
+        <p class="footer-text">
+            Advanced AI-powered blood group detection through fingerprint analysis.
+        </p>
+    </div>
+
+    <div class="footer-credit">
+         <strong>contact@FingerPrintAI.com</strong>
+    </div>
+</footer>
+<!-- ================= END FOOTER ================= -->
+
+
+</body>
+</html>
