@@ -11,6 +11,8 @@ from PIL import Image
 import io
 import os
 
+
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY', 'dev-change-this-secret-key')
 app.jinja_loader = ChoiceLoader([
