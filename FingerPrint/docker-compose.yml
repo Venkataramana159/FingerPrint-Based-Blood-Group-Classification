@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: bloodscan-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password_123
+      MYSQL_DATABASE: bloodscan
+      MYSQL_USER: bloodscan_user
+      MYSQL_PASSWORD: bloodscan_pass
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./mysql_init.sql:/docker-entrypoint-initdb.d/mysql_init.sql:ro
+    ports:
+      - "3306:3306"
+
+  web:
+    build: .
+    container_name: bloodscan-web
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "5001:5001"
+    environment:
+      FLASK_ENV: development
+      MYSQL_HOST: db
+      MYSQL_USER: bloodscan_user
+      MYSQL_PASSWORD: bloodscan_pass
+      MYSQL_DB: bloodscan
+      FLASK_APP: app.py
+    volumes:
+      - .:/app
+
+volumes:
+  db_data:

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Blood Group Detection</title>
+
+    <!-- Browser tab logo (favicon) -->
+    <link rel="icon" type="image/png"
+          href="{{ url_for('static', filename='images/Icon.png') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='result.css') }}">
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header>
+    <a href="{{ url_for('index') }}" class="logo">
+        <div class="logo-box">
+            <i class="fa-solid fa-fingerprint"></i>
+        </div>
+        <span>BloodScan AI</span>
+    </a>
+
+    <nav class="nav-actions" aria-label="Primary navigation">
+        <a href="{{ url_for('index') }}" class="analyze-btn">
+            <i class="fa-solid fa-arrow-left-long"></i>
+            Back to Home
+        </a>
+
+        {% if session.get('user_id') %}
+        <div class="user-menu" data-user-menu>
+            <button type="button" class="user-menu-trigger" aria-label="Open user menu" aria-expanded="false">
+                <span class="user-avatar" title="{{ session.get('user_name') }}">
+                    <i class="fa-solid fa-user"></i>
+                </span>
+            </button>
+
+            <div class="user-menu-panel" hidden>
+                <div class="user-menu-name-row">
+                    <span class="user-name">{{ session.get('user_name') }}</span>
+                    <button type="button" class="user-menu-collapse" aria-label="Collapse user menu">
+                        <i class="fa-solid fa-angle-right"></i>
+                    </button>
+                </div>
+
+                <a href="{{ url_for('logout') }}" class="signout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Sign Out
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </nav>
+</header>
+
+<!-- =============== ANALYSIS MAIN SECTION =============== -->
+<section class="analysis-section">
+
+    <h1>FingerPrint Analysis</h1>
+    <p class="analysis-subtitle">
+        Upload your fingerprint image to discover your blood group
+    </p>
+
+    <div class="analysis-grid">
+
+        <!-- ================= UPLOAD CARD ================= -->
+        <form id="upload-form" enctype="multipart/form-data" class="analysis-card">
+
+            <h3>
+                <i class="fa-solid fa-upload"></i>
+                Upload Fingerprint
+            </h3>
+            <p>Select a clear image of your fingerprint for analysis</p>
+
+            <div class="upload-box" id="upload-box" onclick="document.getElementById('image-input').click()">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <img id="image-preview" alt="Preview" style="display:none; max-width:100%; max-height:200px; margin-bottom:10px;" />
+                <span id="file-name">Drop your image here</span>
+                <small>or click to browse files</small>
+
+                <button type="button" class="browse-btn" id="browse-btn">
+                    Browse Files
+                </button>
+            </div>
+
+            <!-- HIDDEN FILE INPUT (NO DESIGN CHANGE) -->
+            <input type="file"
+                   id="image-input"
+                   name="image"
+                   accept="image/*"
+                   hidden
+                   required>
+
+            <button type="submit" class="analyze-action-btn">
+                Analyze Fingerprint
+            </button>
+        </form>
+
+        <!-- ================= RESULTS CARD ================= -->
+        <div class="analysis-card">
+
+            <h3>
+                <i class="fa-solid fa-chart-line"></i>
+                Analysis Results
+            </h3>
+            <p>Your blood group prediction and confidence levels</p>
+
+            <div class="results-box">
+
+                <h4>
+                    Blood Group:
+                    <span id="predicted-group">--</span>
+                </h4>
+
+                <p>
+                    Confidence:
+                    <span id="confidence" style="font-weight: bold;">--</span>%
+                </p>
+
+                <div class="progress-bar">
+                    <div id="main-progress"></div>
+                </div>
+
+                <h5>All Predictions</h5>
+                <div id="all-predictions"></div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- =============== END ANALYSIS SECTION =============== -->
+
+<!-- ================= CTA SECTION ================= -->
+<section class="cta-section">
+    <h2>Please Read the Guidelines First</h2>
+    <p>
+        Before starting the fingerprint analysis, it is mandatory to read
+        and understand the guidelines. This system is for educational and
+        experimental purposes only.
+    </p>
+
+    <a href="{{ url_for('index') }}#guidelines" class="cta-btn">
+        Read Guidelines
+        <i class="fa-solid fa-arrow-right"></i>
+    </a>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            <div class="logo-box">
+                <i class="fa-solid fa-fingerprint"></i>
+            </div>
+            <span>BloodScan AI</span>
+        </div>
+
+        <p class="footer-text">
+            Advanced AI-powered blood group detection through fingerprint analysis.
+        </p>
+    </div>
+
+    <div class="footer-credit">
+        <strong>contact@FingerPrintAI.com</strong>
+    </div>
+</footer>
+
+<!-- ================= SCRIPT ================= -->
+<script>
+const form = document.getElementById("upload-form");
+const imageInput = document.getElementById("image-input");
+const fileName = document.getElementById("file-name");
+
+imageInput.addEventListener("change", () => {
+    if (imageInput.files && imageInput.files.length > 0) {
+        const file = imageInput.files[0];
+        fileName.textContent = file.name;
+
+        // show preview
+        const preview = document.getElementById('image-preview');
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = 'block';
+        // hide the upload icon when preview is visible
+        const uploadIcon = document.querySelector('#upload-box i.fa-cloud-arrow-up');
+        if (uploadIcon) uploadIcon.style.display = 'none';
+        fileName.style.display = 'block';
+    }
+});
+
+// make browse button open file picker too
+const browseBtn = document.getElementById('browse-btn');
+browseBtn.addEventListener('click', () => document.getElementById('image-input').click());
+
+form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+
+    fetch("{{ url_for('predict') }}", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => renderResults(data))
+    .catch(err => console.error(err));
+});
+
+function renderResults(data) {
+
+    document.getElementById("predicted-group").textContent =
+        data.predicted_group;
+
+    document.getElementById("confidence").textContent =
+        data.confidence;
+
+    document.getElementById("main-progress").style.width =
+        data.confidence + "%";
+
+    const container = document.getElementById("all-predictions");
+    container.innerHTML = "";
+
+    for (const [group, value] of Object.entries(data.all_predictions)) {
+        container.innerHTML += `
+            <div class="prediction-item">
+                <span>${group} - ${value}%</span>
+                <div class="prediction-bar">
+                    <div style="width:${value}%"></div>
+                </div>
+            </div>
+        `;
+    }
+}
+</script>
+
+<script>
+(function () {
+    const menu = document.querySelector('[data-user-menu]');
+    if (!menu) return;
+
+    const trigger = menu.querySelector('.user-menu-trigger');
+    const panel = menu.querySelector('.user-menu-panel');
+    const collapse = menu.querySelector('.user-menu-collapse');
+
+    const openMenu = () => {
+        panel.hidden = false;
+        trigger.setAttribute('aria-expanded', 'true');
+        menu.classList.add('is-open');
+    };
+
+    const closeMenu = () => {
+        panel.hidden = true;
+        trigger.setAttribute('aria-expanded', 'false');
+        menu.classList.remove('is-open');
+    };
+
+    trigger.addEventListener('click', () => {
+        if (panel.hidden) openMenu();
+        else closeMenu();
+    });
+
+    collapse.addEventListener('click', closeMenu);
+
+    document.addEventListener('click', (event) => {
+        if (!menu.contains(event.target)) closeMenu();
+    });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,372 @@
+/* ================= RESET ================= */
+html {
+    scroll-behavior: smooth;
+}
+a{
+    text-decoration: none;
+    text-align: center;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+    text-decoration: none;
+}
+
+body {
+    background: linear-gradient(to right, #f5fbff, #eef7ff);
+}
+
+/* ================= HEADER ================= */
+header {
+    background: #ffffff;
+    padding: 16px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e6eef5;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 18px;
+    color: #1a73e8;
+    cursor: pointer;
+}
+
+.logo-box {
+    width: 36px;
+    height: 36px;
+    background: #1a73e8;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+}
+
+.logo-box i {
+    color: #ffffff;
+    font-size: 18px;
+    
+    
+}
+
+.analyze-btn {
+    background: #1a73e8;
+    color: #ffffff;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.analyze-btn:hover{
+    background: #1a73e8de;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+/* ================= ANALYSIS PAGE ================= */
+
+.analysis-section {
+    padding: 140px 40px 80px;
+    text-align: center;
+}
+
+.analysis-section h1 {
+    font-size: 36px;
+    color: #0f172a;
+}
+
+.analysis-subtitle {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #475569;
+}
+
+/* Grid */
+.analysis-grid {
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Card */
+.analysis-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    text-align: left;
+}
+
+.analysis-card h3 {
+    font-size: 18px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.analysis-card p {
+    font-size: 14px;
+    color: #64748b;
+}
+
+/* Upload Box */
+.upload-box {
+    margin-top: 20px;
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    color: #475569;
+}
+
+.upload-box i {
+    font-size: 26px;
+    color: #1a73e8;
+    margin-bottom: 10px;
+}
+
+.upload-box span {
+    display: block;
+    font-weight: 600;
+}
+
+.upload-box small {
+    display: block;
+    margin-top: 4px;
+    font-size: 12px;
+}
+
+/* Image preview inside upload box */
+.upload-box img#image-preview {
+    margin: 12px auto;
+    border-radius: 8px;
+    object-fit: contain;
+    width: 100%;
+}
+
+/* Buttons */
+.browse-btn {
+    margin-top: 12px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    background: #1a73e8;
+    color: #fff;
+    cursor: pointer;
+}
+
+.analyze-action-btn {
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    background: #1a73e8;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+}
+.analyze-action-btn:hover{
+    background: #1a73e8de;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+/* Results Placeholder */
+.results-placeholder {
+    margin-top: 30px;
+    border: 2px dashed #e2e8f0;
+    border-radius: 12px;
+    padding: 40px 20px;
+    text-align: center;
+    color: #64748b;
+}
+
+.results-placeholder i {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+/* Main confidence progress bar */
+.progress-bar {
+    width: 100%;
+    background: #e6eef5;
+    border-radius: 10px;
+    height: 16px;
+    overflow: hidden;
+    margin: 12px 0 20px;
+}
+
+#main-progress {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #1a73e8, #3b82f6);
+    border-radius: 10px;
+    transition: width 600ms ease;
+}
+
+/* Per-group predictions list */
+.prediction-item {
+    margin-bottom: 12px;
+}
+.prediction-item span {
+    display: block;
+    font-size: 14px;
+    color: #0f172a;
+    margin-bottom: 6px;
+}
+.prediction-bar {
+    background: #f1f5f9;
+    border-radius: 8px;
+    height: 12px;
+    overflow: hidden;
+}
+.prediction-bar > div {
+    height: 100%;
+    background: linear-gradient(90deg, #06b6d4, #3b82f6);
+    width: 0%;
+    transition: width 600ms ease;
+}
+
+
+
+/* ================== RESPONSIVE ================== */
+
+@media (max-width: 768px) {
+    .guidelines-section h2 {
+        font-size: 24px;
+    }
+
+    .guidelines-list li {
+        font-size: 14px;
+    }
+}
+
+/* ================= MOBILE FIX ================= */
+@media (max-width: 768px) {
+    .info-box,
+    .info-row.reverse .info-box {
+        float: none;
+        margin: 20px auto;
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .features {
+        justify-content: center;
+    }
+}
+/* ================= CTA SECTION ================= */
+
+.cta-section {
+    background: linear-gradient(90deg, #0f61cc, #0c6e94);
+    padding: 80px 40px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.cta-section h2 {
+    font-size: 34px;
+    margin-bottom: 12px;
+}
+
+.cta-section p {
+    font-size: 16px;
+    max-width: 700px;
+    margin: 0 auto 30px;
+    line-height: 1.6;
+    opacity: 0.95;
+}
+
+.cta-btn {
+    background: #ffffff;
+    color: #1a73e8;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 30px;
+    font-size: 15px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cta-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+/* ================= FOOTER ================= */
+
+.footer {
+    background: #0b1220;
+    color: #cbd5e1;
+    padding: 40px 30px 20px;
+    text-align: center;
+}
+
+.footer-content {
+    margin-bottom: 16px;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.footer-text {
+    font-size: 14px;
+    opacity: 0.85;
+}
+
+.footer-credit {
+    margin-top: 20px;
+    font-size: 13px;
+    opacity: 0.7;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+    .cta-section h2 {
+        font-size: 26px;
+    }
+
+    .cta-section p {
+        font-size: 14px;
+    }
+}
+/* ================= CTA SECTION ================= */
